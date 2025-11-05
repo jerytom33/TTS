@@ -1,0 +1,241 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+// User Management
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  avatar        String?
+  role          UserRole  @default(USER)
+  language      String    @default("en") // en, ml
+  theme         String    @default("light") // light, dark
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  projects      Project[]
+  userSettings  UserSettings?
+  sessions      UserSession[]
+
+  @@map("users")
+}
+
+model UserSettings {
+  id                String  @id @default(cuid())
+  userId            String  @unique
+  defaultVoiceId    String?
+  exportQuality     String  @default("720p") // 720p, 1080p, 4k
+  autoSave          Boolean @default(true)
+  watermarkEnabled  Boolean @default(false)
+  watermarkUrl      String?
+  bgmVolume         Float   @default(0.3) // 0.0 to 1.0
+
+  // Relations
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_settings")
+}
+
+model UserSession {
+  id           String   @id @default(cuid())
+  userId       String
+  token        String   @unique
+  refreshToken String?  @unique
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  // Relations
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_sessions")
+}
+
+// Project Management
+model Project {
+  id            String          @id @default(cuid())
+  userId        String
+  name          String
+  description   String?
+  textContent   String
+  voiceId       String
+  voiceSpeed    Float           @default(1.0) // 0.5 to 2.0
+  voicePitch    Float           @default(1.0) // 0.5 to 2.0
+  status        ProjectStatus   @default(DRAFT)
+  backgroundType BackgroundType @default(COLOR)
+  backgroundColor String?        @default("#000000")
+  backgroundImageUrl String?
+  backgroundVideoUrl String?
+  watermarkUrl  String?
+  bgmUrl        String?
+  bgmVolume     Float           @default(0.3)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  // Relations
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generatedVideos GeneratedVideo[]
+
+  @@map("projects")
+}
+
+model GeneratedVideo {
+  id            String            @id @default(cuid())
+  projectId     String
+  status        VideoStatus       @default(PENDING)
+  quality       String            @default("720p")
+  audioUrl      String?
+  videoUrl      String?
+  thumbnailUrl  String?
+  duration      Float?            // in seconds
+  fileSize      Int?              // in bytes
+  errorMessage  String?
+  progress      Float             @default(0) // 0 to 100
+  startedAt     DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  // Relations
+  project       Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("generated_videos")
+}
+
+// TTS Voice Management
+model Voice {
+  id              String  @id @default(cuid())
+  name            String
+  displayName     String
+  languageCode    String  // en, ml, etc.
+  languageName    String  // English, Malayalam
+  gender          VoiceGender
+  provider        String  @default("puter") // puter, openai, etc.
+  providerVoiceId String
+  isPremium       Boolean @default(false)
+  isActive        Boolean @default(true)
+  sampleAudioUrl  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("voices")
+}
+
+// Translation Management
+model Translation {
+  id          String @id @default(cuid())
+  key         String @unique
+  en          String // English translation
+  ml          String // Malayalam translation
+  context     String? // Usage context for translators
+  category    String // ui, error, email, etc.
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("translations")
+}
+
+// Admin Configuration
+model SystemConfig {
+  id          String @id @default(cuid())
+  key         String @unique
+  value       String
+  type        String // string, number, boolean, json
+  description String?
+  category    String // tts, video, ui, etc.
+  isPublic    Boolean @default(false) // Whether frontend can access this
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("system_configs")
+}
+
+// Task Queue for Video Rendering
+model RenderQueue {
+  id            String      @id @default(cuid())
+  projectId     String
+  userId        String
+  status        QueueStatus @default(PENDING)
+  priority      Int         @default(5) // 1-10, lower number = higher priority
+  payload       String      // JSON string of render parameters
+  attempts      Int         @default(0)
+  maxAttempts   Int         @default(3)
+  errorMessage  String?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  scheduledFor  DateTime    @default(now())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("render_queue")
+}
+
+// Usage Analytics
+model UsageAnalytics {
+  id            String   @id @default(cuid())
+  userId        String?
+  eventType     String   // project_created, audio_generated, video_rendered, etc.
+  eventData     String?  // JSON string of event data
+  userAgent     String?
+  ipAddress     String?
+  createdAt     DateTime @default(now())
+
+  @@map("usage_analytics")
+}
+
+// Enums
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum ProjectStatus {
+  DRAFT
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum VideoStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum BackgroundType {
+  COLOR
+  IMAGE
+  VIDEO
+  SLIDESHOW
+}
+
+enum VoiceGender {
+  MALE
+  FEMALE
+  NEUTRAL
+}
+
+enum QueueStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  RETRYING
+}

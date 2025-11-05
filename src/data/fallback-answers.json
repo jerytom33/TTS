@@ -1,0 +1,236 @@
+{
+  "aiResponses": {
+    "textToSpeech": {
+      "malayalam": {
+        "common_phrases": [
+          "ഓഡിയോ ജനറേഷൻ താൽക്കാലികമായി ലഭ്യമല്ല",
+          "വോയ്‌സ് സിന്തസിസ് സേവനം പുനഃസ്ഥാപിക്കുന്നു",
+          "ദയവായി കുറച്ച് സമയത്തിന് ശേഷം വീണ്ടും ശ്രമിക്കൂ"
+        ]
+      },
+      "english": {
+        "common_phrases": [
+          "Audio generation temporarily unavailable",
+          "Voice synthesis service is being restored",
+          "Please try again in a few moments"
+        ]
+      }
+    },
+    "contentSuggestions": {
+      "malayalam": {
+        "video_creation": [
+          "വ്യക്തമായ ഉച്ചാരണത്തിനായി വാക്കുകൾ സാവധാനം പറയൂ",
+          "പ്രധാന പോയിന്റുകൾ ഊന്നിപ്പറയുക",
+          "സംഭാഷണത്തിൽ സ്വാഭാവിക വിരാമങ്ങൾ ചേർക്കൂ"
+        ]
+      },
+      "english": {
+        "video_creation": [
+          "Speak slowly and clearly for better pronunciation",
+          "Emphasize key points in your content",
+          "Add natural pauses for better flow"
+        ]
+      }
+    },
+    "projectAnalysis": {
+      "general_feedback": [
+        "Your project shows good potential. Consider adding more engaging visuals to enhance viewer experience.",
+        "The content structure is solid. You might benefit from varying the pace and adding emphasis on key points.",
+        "Great start! Adding background music or sound effects could make your video more compelling."
+      ]
+    },
+    "malayalam": {
+      "greetings": [
+        "നമസ്കാരം! ഞാൻ നിങ്ങളുടെ വോയ്‌സ് അസിസ്റ്റന്റ് ആണ്.",
+        "വണക്കം! എനിക്ക് നിങ്ങളെ സഹായിക്കാൻ കഴിയും.",
+        "ആദരാഞ്ജലികൾ! നിങ്ങൾക്ക് വേണ്ടത് പറയൂ."
+      ],
+      "common_phrases": [
+        "നിങ്ങൾക്ക് എങ്ങനെ സഹായിക്കാൻ കഴിയും?",
+        "ദയവായി കാത്തിരിക്കൂ, ഞാൻ പ്രോസസ് ചെയ്യുന്നു.",
+        "നിങ്ങളുടെ അഭ്യർത്ഥന പൂർത്തിയായി.",
+        "വേറെ എന്തെങ്കിലും സഹായം വേണോ?",
+        "വളരെ നല്ലത്, നിങ്ങളുടെ ടാസ്ക് പൂർത്തീകരിച്ചു.",
+        "ക്ഷമിക്കണം, എനിക്ക് മനസ്സിലായില്ല. വീണ്ടും ശ്രമിക്കൂ."
+      ],
+      "technical_terms": [
+        "ആർട്ടിഫിഷ്യൽ ഇന്റലിജൻസ്",
+        "വോയ്‌സ് സിന്തസിസ്",
+        "ഓഡിയോ പ്രോസസിംഗ്",
+        "വീഡിയോ ജനറേഷൻ",
+        "ടെക്സ്റ്റ് ടു സ്പീച്ച്"
+      ],
+      "ai_responses": [
+        "നിങ്ങളുടെ ചോദ്യം വളരെ രസകരമാണ്. Malayalam ഭാഷയിൽ AI സേവനങ്ങൾ വികസിപ്പിക്കുന്നത് വലിയ സാധ്യതകൾ തുറക്കുന്നു.",
+        "ടെക്നോളജിയുടെ ഈ മുന്നേറ്റം മലയാളി സമുദായത്തിന് വിപുലമായ സാധ്യതകൾ നൽകുന്നു.",
+        "AI-യുടെ സഹായത്തോടെ നമുക്ക് മലയാളം ഭാഷയെ ഡിജിറ്റൽ യുഗത്തിലേക്ക് കൊണ്ടുവരാൻ കഴിയും."
+      ]
+    },
+    "english": {
+      "greetings": [
+        "Hello! I'm your voice assistant.",
+        "Welcome! How can I help you today?",
+        "Greetings! I'm ready to assist you."
+      ],
+      "common_phrases": [
+        "How can I assist you?",
+        "Please wait while I process your request.",
+        "Your request has been completed.",
+        "Is there anything else I can help you with?",
+        "Great! Your task has been finished successfully.",
+        "I'm sorry, I didn't understand. Please try again."
+      ],
+      "technical_terms": [
+        "Artificial Intelligence",
+        "Voice Synthesis",
+        "Audio Processing",
+        "Video Generation",
+        "Text to Speech"
+      ],
+      "ai_responses": [
+        "That's an excellent question! AI technology has the potential to revolutionize how we create and interact with multimedia content.",
+        "The integration of Puter.js provides a robust foundation for building intelligent applications with seamless fallback mechanisms.",
+        "Voice synthesis technology, particularly for regional languages like Malayalam, opens up new possibilities for inclusive digital experiences."
+      ]
+    }
+  },
+  "resourceTools": {
+    "ttsVoices": [
+      {
+        "name": "Raveena",
+        "language": "ml-IN",
+        "gender": "Female",
+        "provider": "aws-polly",
+        "description": "Premium Malayalam voice with natural intonation"
+      },
+      {
+        "name": "Aditi",
+        "language": "hi-IN", 
+        "gender": "Female",
+        "provider": "aws-polly",
+        "description": "High-quality Hindi voice with regional accent support"
+      },
+      {
+        "name": "Joanna",
+        "language": "en-US",
+        "gender": "Female",
+        "provider": "aws-polly",
+        "description": "Professional English voice for business applications"
+      },
+      {
+        "name": "Matthew",
+        "language": "en-US",
+        "gender": "Male",
+        "provider": "aws-polly",
+        "description": "Clear male English voice for presentations"
+      },
+      {
+        "name": "Kajal",
+        "language": "ml-IN",
+        "gender": "Female",
+        "provider": "azure-cognitive",
+        "description": "Natural Malayalam voice with emotional expression"
+      }
+    ],
+    "videoTemplates": [
+      {
+        "id": "professional_presentation",
+        "name": "Professional Presentation",
+        "description": "Clean, corporate style template with gradient backgrounds",
+        "duration": "auto",
+        "aspectRatio": "16:9",
+        "features": ["title_slides", "bullet_points", "logo_placement"]
+      },
+      {
+        "id": "educational_content",
+        "name": "Educational Content",
+        "description": "Engaging template for learning materials with visual aids",
+        "duration": "auto", 
+        "aspectRatio": "16:9",
+        "features": ["chapter_slides", "progress_indicators", "highlight_boxes"]
+      },
+      {
+        "id": "cultural_greeting",
+        "name": "Cultural Greeting",
+        "description": "Traditional Malayalam cultural elements with modern design",
+        "duration": "30s",
+        "aspectRatio": "1:1",
+        "features": ["cultural_patterns", "traditional_colors", "festival_themes"]
+      },
+      {
+        "id": "marketing_video",
+        "name": "Marketing Video",
+        "description": "Dynamic template for promotional content with call-to-action",
+        "duration": "60s",
+        "aspectRatio": "16:9",
+        "features": ["animated_text", "brand_colors", "cta_sections"]
+      }
+    ],
+    "imageStyles": [
+      {
+        "name": "Professional",
+        "description": "Clean, business-appropriate visuals",
+        "keywords": ["corporate", "clean", "minimal", "professional"]
+      },
+      {
+        "name": "Cultural",
+        "description": "Malayalam cultural patterns and traditional elements",
+        "keywords": ["traditional", "kerala", "cultural", "heritage"]
+      },
+      {
+        "name": "Modern",
+        "description": "Contemporary design with gradients and geometric shapes",
+        "keywords": ["modern", "gradient", "geometric", "contemporary"]
+      },
+      {
+        "name": "Educational",
+        "description": "Clear, informative visuals suitable for learning",
+        "keywords": ["educational", "informative", "clear", "instructional"]
+      }
+    ]
+  },
+  "systemConfig": {
+    "fallbackBehavior": {
+      "primary_service": "puter.js",
+      "secondary_service": "z-ai-sdk",
+      "tertiary_service": "local_fallback",
+      "timeout_ms": 5000,
+      "retry_attempts": 2,
+      "cache_responses": true
+    },
+    "serviceEndpoints": {
+      "puter_ai_chat": "https://api.puter.com/v1/ai/chat",
+      "puter_tts": "https://api.puter.com/v1/ai/text-to-speech", 
+      "puter_image": "https://api.puter.com/v1/ai/text-to-image",
+      "zai_fallback": "/api/zai/generate",
+      "local_fallback": "/api/fallback/response"
+    },
+    "authentication": {
+      "puter_username": "kailaspnair@yahoo.com",
+      "puter_password": "@#Cargo123#@",
+      "auto_login": true,
+      "session_persistence": true
+    },
+    "ai_models": {
+      "chat": {
+        "primary": "gpt-5-nano",
+        "fallback": "claude-3-haiku"
+      },
+      "tts": {
+        "malayalam": "aws-polly-raveena",
+        "english": "aws-polly-joanna",
+        "fallback": "browser-speech-synthesis"
+      },
+      "image": {
+        "primary": "gpt-image-1-mini", 
+        "fallback": "stable-diffusion-xl"
+      }
+    },
+    "performance": {
+      "cache_duration_ms": 300000,
+      "max_concurrent_requests": 3,
+      "request_timeout_ms": 10000,
+      "enable_compression": true
+    }
+  }
+}

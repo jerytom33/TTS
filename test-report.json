@@ -1,0 +1,166 @@
+{
+  "timestamp": "2025-11-05T11:24:11.832Z",
+  "summary": {
+    "successCount": 4,
+    "errorCount": 6,
+    "warningCount": 3,
+    "successRate": "30.8"
+  },
+  "details": [
+    {
+      "timestamp": "2025-11-05T11:24:11.760Z",
+      "type": "info",
+      "message": "🚀 Starting Puter.js Integration Test Suite"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.764Z",
+      "type": "info",
+      "message": "================================================"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.765Z",
+      "type": "info",
+      "message": "\n📁 Testing Critical Files..."
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.766Z",
+      "type": "success",
+      "message": "✅ Critical file exists: ../src/contexts/puter-context.tsx"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.766Z",
+      "type": "success",
+      "message": "✅ Critical file exists: ../src/lib/puter-config.ts"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.767Z",
+      "type": "success",
+      "message": "✅ Critical file exists: ../src/components/puter-demo.tsx"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.767Z",
+      "type": "success",
+      "message": "✅ Critical file exists: ../src/data/fallback-answers.json"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.769Z",
+      "type": "info",
+      "message": "\n📊 Testing Fallback Data..."
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.769Z",
+      "type": "info",
+      "message": "Testing fallback data file..."
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.770Z",
+      "type": "error",
+      "message": "❌ Fallback data validation failed: Missing language sections in AI responses"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.771Z",
+      "type": "info",
+      "message": "\n🏥 Testing Health Endpoint..."
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.771Z",
+      "type": "info",
+      "message": "Testing API endpoint: /health"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.812Z",
+      "type": "error",
+      "message": "❌ /health failed: Error"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.813Z",
+      "type": "info",
+      "message": "\n🎵 Testing Enhanced TTS API..."
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.813Z",
+      "type": "info",
+      "message": "Testing API endpoint: /tts/generate-enhanced"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.817Z",
+      "type": "error",
+      "message": "❌ /tts/generate-enhanced failed: Error"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.818Z",
+      "type": "warning",
+      "message": "⚠️  TTS test handled gracefully for: en-US"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.818Z",
+      "type": "info",
+      "message": "Testing API endpoint: /tts/generate-enhanced"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.822Z",
+      "type": "error",
+      "message": "❌ /tts/generate-enhanced failed: Error"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.822Z",
+      "type": "warning",
+      "message": "⚠️  TTS test handled gracefully for: ml-IN"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.822Z",
+      "type": "info",
+      "message": "Testing API endpoint: /tts/generate-enhanced"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.826Z",
+      "type": "error",
+      "message": "❌ /tts/generate-enhanced failed: Error"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.826Z",
+      "type": "warning",
+      "message": "⚠️  TTS test handled gracefully for: invalid"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.826Z",
+      "type": "info",
+      "message": "\n🖥️  Testing Demo Page..."
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.830Z",
+      "type": "error",
+      "message": "❌ Demo page failed: Error"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.830Z",
+      "type": "info",
+      "message": "\n📋 Test Suite Summary"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.831Z",
+      "type": "info",
+      "message": "==================="
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.831Z",
+      "type": "info",
+      "message": "✅ Successful tests: 4"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.831Z",
+      "type": "info",
+      "message": "⚠️  Warnings: 3"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.831Z",
+      "type": "info",
+      "message": "❌ Errors: 6"
+    },
+    {
+      "timestamp": "2025-11-05T11:24:11.832Z",
+      "type": "info",
+      "message": "📊 Success rate: 30.8%"
+    }
+  ]
+}
