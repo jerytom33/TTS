@@ -34,7 +34,13 @@ export default function TTSCreator({ project, onSave, onCancel }: TTSCreatorProp
   const [voiceSpeed, setVoiceSpeed] = useState(project?.voiceSpeed || 1.0)
   const [voicePitch, setVoicePitch] = useState(project?.voicePitch || 1.0)
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false)
-  const [generatedAudioConfig, setGeneratedAudioConfig] = useState(null)
+  const [generatedAudioConfig, setGeneratedAudioConfig] = useState<{
+    text: string
+    voiceId: string
+    language: string
+    speed: number
+    pitch: number
+  } | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -58,6 +64,7 @@ export default function TTSCreator({ project, onSave, onCancel }: TTSCreatorProp
 
   const handleGenerateAudio = async () => {
     if (!selectedVoiceId || !textContent.trim()) {
+      setError('Please select a voice and enter text content')
       return
     }
 
@@ -66,6 +73,10 @@ export default function TTSCreator({ project, onSave, onCancel }: TTSCreatorProp
 
     try {
       const token = localStorage.getItem('auth_token')
+      
+      // If editing existing project, use its ID; otherwise create temp ID
+      const projectIdToUse = project?.id || `temp-${Date.now()}`
+      
       const response = await fetch('/api/tts/generate', {
         method: 'POST',
         headers: {
@@ -75,6 +86,7 @@ export default function TTSCreator({ project, onSave, onCancel }: TTSCreatorProp
         body: JSON.stringify({
           text: textContent,
           voiceId: selectedVoiceId,
+          projectId: projectIdToUse,
           speed: voiceSpeed,
           pitch: voicePitch,
           language: language === 'ml' ? 'ml-IN' : 'en-US'
@@ -83,7 +95,10 @@ export default function TTSCreator({ project, onSave, onCancel }: TTSCreatorProp
 
       if (response.ok) {
         const data = await response.json()
-        setGeneratedAudioConfig(data.puter || {
+        console.log('✅ TTS API Response:', data)
+        
+        // Set config for AudioPlayer to generate audio client-side
+        setGeneratedAudioConfig({
           text: textContent,
           voiceId: selectedVoiceId,
           language: language === 'ml' ? 'ml-IN' : 'en-US',
@@ -91,11 +106,12 @@ export default function TTSCreator({ project, onSave, onCancel }: TTSCreatorProp
           pitch: voicePitch
         })
       } else {
-        setError('Failed to generate audio')
+        const errorData = await response.json()
+        setError(errorData.error || 'Failed to generate audio')
       }
     } catch (err) {
-      console.error('Error generating audio:', err)
-      setError('Failed to generate audio')
+      console.error('❌ Error generating audio:', err)
+      setError('Failed to generate audio. Please check your connection.')
     } finally {
       setIsGeneratingAudio(false)
     }

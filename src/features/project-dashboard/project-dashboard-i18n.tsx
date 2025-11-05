@@ -40,12 +40,68 @@ export default function ProjectDashboard() {
   }
 
   return (
-    <div className='max-w-7xl mx-auto p-6 space-y-6'>
-      <div className='flex justify-between items-center'>
-        <h1 className='text-3xl font-bold'>TTS Projects</h1>
-        <Button onClick={() => setIsCreatingNew(true)}><Plus className='w-4 h-4 mr-2' />New</Button>
+    <div className="max-w-7xl mx-auto p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">TTS Projects</h1>
+        <Button onClick={() => setIsCreatingNew(true)}>
+          <Plus className="w-4 h-4 mr-2" />
+          New Project
+        </Button>
       </div>
-      {isLoading ? <p>Loading...</p> : projects.length === 0 ? <div className='text-center py-12'><Mic className='w-12 h-12' /><Button onClick={() => setIsCreatingNew(true)}>Create</Button></div> : <div className='grid grid-cols-3 gap-6'>{projects.map(p => <Card key={p.id}><CardHeader><CardTitle>{p.name}</CardTitle></CardHeader><CardContent><AudioPlayer title='Voice' showDownload puterConfig={{text: p.textContent.slice(0,200), voiceId: p.voiceId, language: 'en-US', speed: p.voiceSpeed, pitch: p.voicePitch}} /><Button variant='outline' className='w-full' onClick={() => setSelectedProject(p)}><Edit className='w-4 h-4 mr-2' />Edit</Button></CardContent></Card>))}</div>}
+
+      {isLoading ? (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">Loading projects...</p>
+        </div>
+      ) : projects.length === 0 ? (
+        <div className="text-center py-12 space-y-4">
+          <Mic className="w-12 h-12 mx-auto text-muted-foreground" />
+          <div>
+            <h3 className="text-lg font-semibold mb-2">No Projects Yet</h3>
+            <p className="text-muted-foreground mb-4">
+              Create your first TTS project to get started
+            </p>
+            <Button onClick={() => setIsCreatingNew(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Create First Project
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map(p => (
+            <Card key={p.id} className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle className="line-clamp-1">{p.name}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-sm text-muted-foreground line-clamp-2">
+                  {p.textContent}
+                </p>
+                <AudioPlayer
+                  title="Voice Preview"
+                  showDownload
+                  puterConfig={{
+                    text: p.textContent.slice(0, 200),
+                    voiceId: p.voiceId,
+                    language: 'en-US',
+                    speed: p.voiceSpeed,
+                    pitch: p.voicePitch
+                  }}
+                />
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setSelectedProject(p)}
+                >
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit Project
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

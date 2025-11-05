@@ -31,12 +31,18 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { text, voiceId, projectId, speed, pitch, language } = ttsSchema.parse(body)
 
-    const project = await db.project.findUnique({
-      where: { id: projectId }
-    })
+    // Check if this is a temporary preview (projectId starts with 'temp-')
+    const isTemporaryPreview = projectId.startsWith('temp-')
+    
+    if (!isTemporaryPreview) {
+      // For saved projects, verify ownership
+      const project = await db.project.findUnique({
+        where: { id: projectId }
+      })
 
-    if (!project || project.userId !== session.userId) {
-      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+      if (!project || project.userId !== session.userId) {
+        return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+      }
     }
 
     // Rate limiting: 10 TTS requests per minute
