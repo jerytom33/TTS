@@ -372,10 +372,19 @@ export default function PuterIntegrationDemo() {
                   {result.type === 'audio' && result.audioElement ? (
                     <div>
                       <p className="font-medium mb-2">Audio generated successfully!</p>
-                      <audio controls className="w-full">
-                        <source src={result.audioElement.src} type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                      </audio>
+                      {result.audioElement.src ? (
+                        <audio controls className="w-full">
+                          <source src={result.audioElement.src} type="audio/mpeg" />
+                          Your browser does not support the audio element.
+                        </audio>
+                      ) : typeof result.audioElement === 'string' ? (
+                        <audio controls className="w-full">
+                          <source src={result.audioElement} type="audio/mpeg" />
+                          Your browser does not support the audio element.
+                        </audio>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">Audio element received but source is unavailable</p>
+                      )}
                     </div>
                   ) : result.type === 'image' && result.imageElement ? (
                     <div>

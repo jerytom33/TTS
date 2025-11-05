@@ -79,6 +79,10 @@ export default function AudioPlayer({
         audio.pause()
         setIsPlaying(false)
       } else {
+        if (!audio.src) {
+          setError('Audio source is not available')
+          return
+        }
         setIsLoading(true)
         await audio.play()
         setIsPlaying(true)
@@ -86,6 +90,7 @@ export default function AudioPlayer({
     } catch (err) {
       setError('Failed to play audio')
       setIsPlaying(false)
+      console.error('Playback error:', err)
     }
   }
 

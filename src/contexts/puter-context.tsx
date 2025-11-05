@@ -69,9 +69,9 @@ export function PuterProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(intervalId)
   }, [])
 
-  const initializePuter = async () => {
+  const initializePuter = async (retryCount = 0, maxRetries = 3) => {
     try {
-      console.log('🚀 Initializing Puter service...')
+      console.log('🚀 Initializing Puter service... (Attempt ' + (retryCount + 1) + ')')
       
       // Check if Puter.js is loaded
       if (typeof window !== 'undefined' && (window as any).puter) {
@@ -81,33 +81,72 @@ export function PuterProvider({ children }: { children: ReactNode }) {
         // Attempt automatic authentication with default credentials
         try {
           const puterAuth = (window as any).puter?.auth
-          if (puterAuth && puterAuth.signIn) {
-            await puterAuth.signIn({
-              email: 'kailaspnair@yahoo.com',
-              password: '@#Cargo123#@',
-              stay_signed_in: true
-            })
-            console.log('✅ Puter authenticated successfully')
-            setIsAuthenticated(true)
-            setIsInitialized(true)
+          if (puterAuth) {
+            console.log('🔐 Attempting automatic authentication with default credentials...')
             
-            // Get user info
-            if (puterAuth.getUser) {
-              const userInfo = await puterAuth.getUser()
-              setUser(userInfo)
-              console.log('👤 Puter user info:', userInfo)
+            // Check if already signed in
+            let userInfo: any = null
+            try {
+              if (puterAuth.getUser) {
+                userInfo = await puterAuth.getUser()
+                if (userInfo) {
+                  console.log('✅ User already signed in:', userInfo?.email || 'User')
+                  setIsAuthenticated(true)
+                  setUser(userInfo)
+                  setIsInitialized(true)
+                  return
+                }
+              }
+            } catch (err) {
+              console.log('ℹ️ Not yet signed in, attempting sign in...')
+            }
+            
+            // Attempt sign in with default credentials
+            if (puterAuth.signIn) {
+              try {
+                await puterAuth.signIn({
+                  email: 'kailaspnair@yahoo.com',
+                  password: '@#Cargo123#@',
+                  stay_signed_in: true
+                })
+                console.log('✅ Puter authenticated successfully with default credentials')
+                setIsAuthenticated(true)
+                
+                // Get user info
+                if (puterAuth.getUser) {
+                  const currentUser = await puterAuth.getUser()
+                  setUser(currentUser)
+                  console.log('👤 Puter user authenticated:', currentUser?.email)
+                }
+              } catch (signInError) {
+                console.warn('⚠️ Sign in failed:', signInError)
+                // Continue with fallback mode
+                setIsAuthenticated(false)
+              }
             }
           }
+          setIsInitialized(true)
         } catch (authError) {
-          console.warn('⚠️ Puter auth failed (may be expected):', authError)
+          console.warn('⚠️ Puter auth initialization error:', authError)
           // Continue with fallback mode
           setIsAuthenticated(false)
           setIsInitialized(true)
         }
       } else {
-        console.warn('⚠️ Puter.js not yet available, using fallback mode')
-        setIsAuthenticated(false)
-        setIsInitialized(true)
+        console.warn('⚠️ Puter.js not yet available')
+        
+        // Retry if not max retries reached
+        if (retryCount < maxRetries) {
+          console.log(`🔄 Retrying initialization in 1 second... (${retryCount + 1}/${maxRetries})`)
+          setTimeout(() => {
+            initializePuter(retryCount + 1, maxRetries)
+          }, 1000)
+          return
+        } else {
+          console.warn('⚠️ Max retries reached, using fallback mode')
+          setIsAuthenticated(false)
+          setIsInitialized(true)
+        }
       }
       
       const success = await puterService.initialize()
