@@ -17,24 +17,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VoiceVideo AI - Malayalam TTS Video Generation Platform",
-  description: "Transform text into professional videos with AI-powered Text-to-Speech technology. Supporting Malayalam and English languages with premium voice quality.",
-  keywords: ["TTS", "Video Generation", "Malayalam", "Text to Speech", "AI", "Puter.js", "Voice Synthesis"],
+  title: "VoiceVideo AI - TTS Platform",
+  description: "Transform text into high-quality audio with AI-powered Text-to-Speech technology. Supporting Malayalam and English languages.",
+  keywords: ["TTS", "Text to Speech", "Malayalam", "AI", "Puter.js", "Voice Synthesis", "Audio Generation"],
   authors: [{ name: "VoiceVideo AI Team" }],
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "VoiceVideo AI - Malayalam TTS Video Generation",
-    description: "Create stunning videos from text using AI-powered Malayalam Text-to-Speech technology",
+    title: "VoiceVideo AI - TTS Platform",
+    description: "Create high-quality audio from text using AI-powered Text-to-Speech technology",
     url: "https://voicevideo.ai",
     siteName: "VoiceVideo AI",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "VoiceVideo AI - Malayalam TTS Video Generation",
-    description: "Create stunning videos from text using AI-powered Malayalam Text-to-Speech technology",
+    title: "VoiceVideo AI - TTS Platform",
+    description: "Create high-quality audio from text using AI-powered Text-to-Speech technology",
   },
 };
 

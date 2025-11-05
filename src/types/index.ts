@@ -4,18 +4,13 @@ export type {
   UserSettings,
   UserSession,
   Project,
-  GeneratedVideo,
   Voice,
   Translation,
   SystemConfig,
-  RenderQueue,
   UsageAnalytics,
   UserRole,
   ProjectStatus,
-  VideoStatus,
-  BackgroundType,
-  VoiceGender,
-  QueueStatus
+  VoiceGender
 } from '@prisma/client'
 
 // API Request/Response Types
@@ -34,25 +29,6 @@ export interface TTSResponse {
   error?: string
 }
 
-export interface VideoRenderRequest {
-  projectId: string
-  quality: string
-  backgroundType: BackgroundType
-  backgroundColor?: string
-  backgroundImageUrl?: string
-  backgroundVideoUrl?: string
-  watermarkUrl?: string
-  bgmUrl?: string
-  bgmVolume?: number
-}
-
-export interface VideoRenderResponse {
-  success: boolean
-  queueId?: string
-  estimatedTime?: number
-  error?: string
-}
-
 // UI State Types
 export interface AuthState {
   user: User | null
@@ -67,30 +43,20 @@ export interface ProjectState {
   error: string | null
 }
 
-export interface VideoCreatorState {
+export interface TTSCreatorState {
   textContent: string
   selectedVoice: Voice | null
   voiceSpeed: number
   voicePitch: number
-  backgroundType: BackgroundType
-  backgroundColor: string
-  backgroundImageUrl: string | null
-  backgroundVideoUrl: string | null
-  watermarkUrl: string | null
-  bgmUrl: string | null
-  bgmVolume: number
   isGeneratingAudio: boolean
   audioPreviewUrl: string | null
-  isRenderingVideo: boolean
-  renderProgress: number
 }
 
 // Admin Types
 export interface AdminStats {
   totalUsers: number
   totalProjects: number
-  totalVideos: number
-  activeRenderJobs: number
+  activeJobs: number
   failedJobs: number
 }
 
@@ -108,32 +74,10 @@ export interface TranslationManagementData {
 }
 
 // Component Props Types
-export interface VideoCreatorProps {
-  projectId?: string
+export interface TTSCreatorProps {
+  project?: Project
   onSave?: (project: Project) => void
   onCancel?: () => void
-}
-
-export interface ProjectCardProps {
-  project: Project
-  onEdit: (project: Project) => void
-  onDelete: (projectId: string) => void
-  onDuplicate: (project: Project) => void
-}
-
-export interface VoiceSelectorProps {
-  voices: Voice[]
-  selectedVoiceId: string
-  onVoiceChange: (voiceId: string) => void
-  language?: string
-}
-
-export interface BackgroundSelectorProps {
-  backgroundType: BackgroundType
-  backgroundColor: string
-  backgroundImageUrl: string | null
-  backgroundVideoUrl: string | null
-  onChange: (updates: Partial<BackgroundSelectorProps>) => void
 }
 
 // Configuration Types
@@ -183,7 +127,6 @@ export interface AnalyticsEvent {
 // Export/Import Types
 export interface ProjectExport {
   project: Project
-  generatedVideos: GeneratedVideo[]
   exportDate: Date
   version: string
 }
