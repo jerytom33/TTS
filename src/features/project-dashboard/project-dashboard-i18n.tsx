@@ -339,10 +339,16 @@ export default function ProjectDashboard() {
                     {t('project.voice_preview', 'Voice Preview')}
                   </p>
                   <AudioPlayer
-                    audioUrl={`/api/tts/generate?text=${encodeURIComponent(project.textContent.substring(0, 200))}&voiceId=${project.voiceId}&preview=true`}
                     title={`${project.name} - Sample`}
                     showDownload={false}
                     className="bg-blue-50 dark:bg-blue-950/30"
+                    puterConfig={{
+                      text: project.textContent.substring(0, 200),
+                      voiceId: project.voiceId || 'Joanna',
+                      language: language === 'ml' ? 'ml-IN' : 'en-US',
+                      speed: project.voiceSpeed || 1.0,
+                      pitch: project.voicePitch || 1.0
+                    }}
                   />
                 </div>
 

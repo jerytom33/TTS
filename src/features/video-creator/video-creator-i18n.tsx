@@ -44,6 +44,8 @@ export default function VideoCreator({ project, onSave, onCancel }: VideoCreator
     isRenderingVideo: false,
     renderProgress: 0
   })
+  
+  const [generatedAudioConfig, setGeneratedAudioConfig] = useState<any>(null)
 
   const [voices, setVoices] = useState<Voice[]>([])
   const [isLoadingVoices, setIsLoadingVoices] = useState(true)
@@ -108,9 +110,17 @@ export default function VideoCreator({ project, onSave, onCancel }: VideoCreator
 
       if (response.ok) {
         const data = await response.json()
+        // Store the Puter config for client-side generation
+        setGeneratedAudioConfig({
+          text: state.textContent,
+          voiceId: state.selectedVoice?.id || 'Joanna',
+          language: state.selectedVoice?.languageCode === 'ml' ? 'ml-IN' : 'en-US',
+          speed: state.voiceSpeed,
+          pitch: state.voicePitch
+        })
         setState(prev => ({
           ...prev,
-          audioPreviewUrl: data.audioUrl,
+          audioPreviewUrl: 'generating', // Placeholder to show component
           isGeneratingAudio: false
         }))
       } else {
@@ -335,14 +345,18 @@ export default function VideoCreator({ project, onSave, onCancel }: VideoCreator
                 </div>
                 
                 <AudioPlayer
-                  audioUrl={state.audioPreviewUrl}
                   title={`${projectName || 'Preview'} - Voice Preview`}
                   showDownload={true}
+                  puterConfig={generatedAudioConfig}
                   onDownload={() => {
-                    const link = document.createElement('a')
-                    link.href = state.audioPreviewUrl!
-                    link.download = `${projectName || 'audio'}.mp3`
-                    link.click()
+                    // Download will be available once audio is generated
+                    const audio = document.querySelector('audio')
+                    if (audio?.src) {
+                      const link = document.createElement('a')
+                      link.href = audio.src
+                      link.download = `${projectName || 'audio'}.mp3`
+                      link.click()
+                    }
                   }}
                   className="bg-blue-50 dark:bg-blue-950/30"
                 />

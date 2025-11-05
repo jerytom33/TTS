@@ -6,11 +6,19 @@ import { Slider } from '@/components/ui/slider'
 import { Play, Pause, Volume2, VolumeX, Download, Loader2 } from 'lucide-react'
 
 interface AudioPlayerProps {
-  audioUrl: string
+  audioUrl?: string | null
   title?: string
   showDownload?: boolean
   onDownload?: () => void
   className?: string
+  // For client-side generation
+  puterConfig?: {
+    text: string
+    voiceId: string
+    language: string
+    speed?: number
+    pitch?: number
+  }
 }
 
 export default function AudioPlayer({
@@ -18,7 +26,8 @@ export default function AudioPlayer({
   title,
   showDownload = true,
   onDownload,
-  className = ''
+  className = '',
+  puterConfig
 }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -27,6 +36,53 @@ export default function AudioPlayer({
   const [volume, setVolume] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [generatedUrl, setGeneratedUrl] = useState<string | null>(audioUrl || null)
+
+  // Generate audio using Puter.js if no URL provided but config is given
+  useEffect(() => {
+    const generateAudio = async () => {
+      if (!puterConfig || generatedUrl) return
+      
+      setIsLoading(true)
+      setError(null)
+      
+      try {
+        console.log('🎤 Generating audio with Puter.js...', puterConfig)
+        
+        if (typeof window === 'undefined') {
+          throw new Error('Puter.js not available')
+        }
+        
+        const puterAi = (window as any).puter?.ai
+        if (!puterAi || !puterAi.txt2speech) {
+          throw new Error('Puter.js TTS not available')
+        }
+        
+        // Generate audio using Puter.js
+        const audioElement = await puterAi.txt2speech(puterConfig.text, {
+          language: puterConfig.language || 'en-US',
+          voice: puterConfig.voiceId,
+          engine: 'neural',
+          provider: 'aws-polly'
+        })
+        
+        if (audioElement?.src) {
+          console.log('✅ Audio generated successfully')
+          setGeneratedUrl(audioElement.src)
+        } else {
+          throw new Error('No audio source generated')
+        }
+      } catch (err) {
+        console.error('❌ Puter.js audio generation failed:', err)
+        setError(`Failed to generate audio: ${err instanceof Error ? err.message : 'Unknown error'}`)
+        setIsLoading(false)
+      }
+    }
+    
+    if (puterConfig) {
+      generateAudio()
+    }
+  }, [puterConfig, generatedUrl])
 
   useEffect(() => {
     const audio = audioRef.current
@@ -120,7 +176,7 @@ export default function AudioPlayer({
   return (
     <div className={`space-y-3 p-4 bg-muted rounded-lg ${className}`}>
       {/* Audio Element */}
-      <audio ref={audioRef} src={audioUrl} />
+      <audio ref={audioRef} src={generatedUrl || undefined} />
 
       {/* Title */}
       {title && (
@@ -143,7 +199,7 @@ export default function AudioPlayer({
           size="sm"
           variant="ghost"
           onClick={handlePlayPause}
-          disabled={!audioUrl || isLoading}
+          disabled={(!generatedUrl && !audioUrl) || isLoading}
           className="h-8 w-8 p-0"
         >
           {isLoading ? (
@@ -166,7 +222,7 @@ export default function AudioPlayer({
             step={0.1}
             onValueChange={handleProgressChange}
             className="flex-1"
-            disabled={!audioUrl || duration === 0}
+            disabled={!generatedUrl || duration === 0}
           />
           <span className="text-xs text-muted-foreground w-8">
             {formatTime(duration)}
@@ -195,7 +251,7 @@ export default function AudioPlayer({
             size="sm"
             variant="ghost"
             onClick={onDownload}
-            disabled={!audioUrl}
+            disabled={!generatedUrl}
             className="h-8 w-8 p-0"
             title="Download audio"
           >
